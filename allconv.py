@@ -31,5 +31,5 @@ class AllConvNet(nn.Module):
         conv8_out = F.relu(self.conv8(conv7_out))
 
         class_out = F.relu(self.class_conv(conv8_out))
-        pool_out = self.adaptive_avg_pool2d(class_out, 1).squeeze()
+        pool_out = F.adaptive_avg_pool2d(class_out, 1).squeeze()
         return pool_out
