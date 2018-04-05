@@ -1,5 +1,4 @@
 import torch.nn as nn
-import torch.nn.functional as F
 
 class AllConvNet(nn.Module):
     def __init__(self, input_size, n_classes=10, **kwargs):
@@ -29,14 +28,15 @@ class AllConvNet(nn.Module):
             nn.Conv2d(192, 192, 1),
             nn.ReLU(),
         )
-        self.class_conv = nn.Conv2d(192, n_classes, 1),
+        self.class_conv = nn.Conv2d(192, n_classes, 1)
+        self.global_avg = nn.AdaptiveAvgPool2d(1)
 
 
     def forward(self, x):
-        x = self.input_drop(x)            
+        x = self.input_drop(x)
         x = self.conv_block1(x)
         x = self.conv_block2(x)
         x = self.conv_block3(x)
         x = self.class_conv(x)
-        x = F.avg_pool2d(x, x.size(1))
-        return x
+        x = self.global_avg(x)
+        return x.squeeze()
