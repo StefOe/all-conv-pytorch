@@ -4,6 +4,7 @@ import torch.nn.functional as F
 class AllConvNet(nn.Module):
     def __init__(self, input_size, n_classes=10, **kwargs):
         super(AllConvNet, self).__init__()
+        self.input_drop = nn.Dropout(.2)
         self.conv_block1 = nn.Sequential(
             nn.Conv2d(input_size, 96, 3, padding=1),
             nn.ReLU(),
@@ -31,7 +32,8 @@ class AllConvNet(nn.Module):
         self.class_conv = nn.Conv2d(192, n_classes, 1),
 
 
-    def forward(self, x):                
+    def forward(self, x):
+        x = self.input_drop(x)            
         x = self.conv_block1(x)
         x = self.conv_block2(x)
         x = self.conv_block3(x)
