@@ -14,7 +14,6 @@ class AllConvNet(nn.Module):
         self.conv8 = nn.Conv2d(192, 192, 1)
 
         self.class_conv = nn.Conv2d(192, n_classes, 1)
-        self.global_avg = nn.AdaptiveAvgPool2d(1)
 
 
     def forward(self, x):
